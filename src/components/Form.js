@@ -7,9 +7,9 @@ export const Form = () =>{
 
   const schema = yup.object().shape({
     fullName: yup.string().required("Full Name is required!"),
-    email: yup.string().email().required(),
+    email: yup.string().email().required("This is not a avalid email"),
     age: yup.number().positive().integer().required().min(18),
-    password: yup.string().required().password().min(6).max(22),
+    password: yup.string().required("Password must be 6 or more characters").password().min(6).max(22),
     confirmPassword: yup.string().oneOf([yup.ref("password"), null], "Passwords Dont match").required(),
   });
 
