@@ -10,7 +10,7 @@ export const Form = () =>{
     email: yup.string().email().required(),
     age: yup.number().positive().integer().required().min(18),
     password: yup.string().required().password().min(6).max(22),
-    confirmPassword: yup.string().oneOf([yup.ref("password"), null]).required(),
+    confirmPassword: yup.string().oneOf([yup.ref("password"), null], "Passwords Dont match").required(),
   });
 
   const { register, handleSubmit, formState: {errors}} = useForm({
