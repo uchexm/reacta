@@ -8,7 +8,11 @@ import { QueryClient, QueryClientProvider} from "@tanstack/react-query";
 
 export const  AppContext = createContext();
 function App() {
-  const client = new QueryClient();
+  const client = new QueryClient({defaultOptions:{
+    queries:{
+      refetchOnWindowFocus: false,
+    }
+  }});
   // const [username, setUsername] = useState("Uchenna");
   return(
     <div className="App">
