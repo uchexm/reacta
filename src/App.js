@@ -3,23 +3,21 @@ import Axios  from "axios";
 import { useState, useEffect } from "react";
 
 function App() {
-  const [name, setName] = useState("");
-  const [predictedAge, setPredictedAge] = useState({});
-  const fetchAge = () =>{
-    Axios.get(`https://api.agify.io/?name=${name}`).then((res)=>{
-      setPredictedAge(res.data);
+ //const [excuse, setExcuse] = useState("");
+  const [getExcuse, setGetExcuse] = useState("");
+  const fetchExcuse = (excuse) =>{
+    Axios.get(`https://excuser.herokuapp.com/v1/excuse/${excuse}/`).then((res)=>{
+      setGetExcuse(res.data[0].excuse);
     });
   };
   
   return (
     <div className="App">
-      <input onChange={(e)=>{setName(e.target.value);}}/>
-      
-      <button onClick={fetchAge}>Predict Age</button>
-      <h3>Name: {predictedAge?.name}</h3>
-      <h3>Predicted Age: {predictedAge?.age}</h3>
-      <h3>Count: {predictedAge?.count}</h3>
-      <p></p>
+      <h1>Random Excuse to use</h1>
+      <button onClick={()=>{fetchExcuse("party")}}>Party</button>
+      <button onClick={()=>{fetchExcuse("family")}}>Family</button>
+      <button onClick={()=>{fetchExcuse("office")}}>Office</button>
+      <p>{getExcuse}</p>
     </div>
   );
 
