@@ -2,27 +2,24 @@ import "./App.css";
 import Axios  from "axios";
 import { useState, useEffect } from "react";
 
-// fetch("https://catfact.ninja/fact").then((res)=>{res.json().then((data)=>{console.log(data);})});*/
-
-
 function App() {
-  const [catFact, setCatFact] = useState("");
-  
-  const fetchFact = () => {
-    Axios.get("https://catfact.ninja/fact").then((res)=>{
-    setCatFact(res.data.fact)
+  const [name, setName] = useState("");
+  const [predictedAge, setPredictedAge] = useState({});
+  const fetchAge = () =>{
+    Axios.get(`https://api.agify.io/?name=${name}`).then((res)=>{
+      setPredictedAge(res.data);
     });
   };
-
-  useEffect(() => {
-    fetchFact();
-  }, []);
-
+  
   return (
     <div className="App">
-      <button>Generate Cat Fact (fetch) </button>
-      <button onClick={fetchFact}>Generate Cat Fact (axios) </button>
-      <p>{catFact}</p>
+      <input onChange={(e)=>{setName(e.target.value);}}/>
+      
+      <button onClick={fetchAge}>Predict Age</button>
+      <h3>Name: {predictedAge?.name}</h3>
+      <h3>Predicted Age: {predictedAge?.age}</h3>
+      <h3>Count: {predictedAge?.count}</h3>
+      <p></p>
     </div>
   );
 
