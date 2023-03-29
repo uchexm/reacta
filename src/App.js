@@ -1,5 +1,5 @@
 import "./App.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Task } from "./Task";
 
 function App(){
@@ -32,12 +32,33 @@ function App(){
   const deleteTask = (id) => {
     setTodos(todos.filter((todo)=> todo.id !== id));
   };
+  
+  const Text = () => {
+    const [text, setText] = useState("");
+    
+    return(
+      <div>
+        <input onChange={(e)=>{setText(e.event.target.value)}}/>
+        <h2>{text}</h2>
+      </div>
+    );
+  };
+  
+  useEffect(()=>{
+    console.log('Componenet mounted');
 
+    return () => {
+      console.log('Component unmounted');
+    }
+  });
   return (
     <div className="App">
       <div className="addTask">
         <input onChange={handleChange}/>
         <button onClick={addTodo}>Add Task</button> 
+        
+        <button>Show Text</button>
+        
       </div>
       <div className="list">
         {todos.map((todo)=>{
