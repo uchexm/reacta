@@ -10,8 +10,15 @@ function App(){
   };
 
   const addTodo = () => {
-    const newTodo = [...todos, newTask]
-    setTodos(newTodo);
+    const task = {
+      id: todos.length === 0 ? 1 : todos[todos.length - 1].id + 1,
+      taskName: newTask,
+    };
+    setTodos([...todos, task])
+  };
+
+  const deleteTask = (id) => {
+    setTodos(todos.filter((todo)=> todo.id !== id));
   };
 
   return (
@@ -22,7 +29,12 @@ function App(){
       </div>
       <div className="list">
         {todos.map((todo)=>{
-          return <h3>{todo}</h3>
+          return (
+            <div>
+              <h3>{todo.taskName}</h3>
+              <button onClick={()=>deleteTask(todo.id)}>X</button>
+            </div>
+          )
         })}
       </div>
     </div>
