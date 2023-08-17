@@ -1,51 +1,35 @@
-import "./App.css";
-import { useState } from "react";
-import { Task } from "./Task";
+import "./App.css"
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { Home } from "./pages/Home";
+import { Profile } from "./pages/Profile";
+import { Contact} from "./pages/Contact";
+import { useState, createContext } from "react";
+import { QueryClient, QueryClientProvider} from "@tanstack/react-query";
 
-function App(){
-  const [todos, setTodos] = useState([]);
-  const [newTask, setNewTask] = useState("");
-
-  const handleChange = (e) => {
-    setNewTask(e.target.value);
-  };
-
-  const addTodo = () => {
-    const task = {
-      id: todos.length === 0 ? 1 : todos[todos.length - 1].id + 1,
-      taskName: newTask,
-      completed: false,
-    };
-    setTodos([...todos, task])
-  };
-  
-  const completeTodo = (id) => {
-    setTodos(todos.map((todo)=>{
-      if(todo.id === id){
-        return{...todos, completed: true};
-      }else{
-        return todo;
-      }
-    }))  
-  };
-
-  const deleteTask = (id) => {
-    setTodos(todos.filter((todo)=> todo.id !== id));
-  };
-
-  return (
+export const  AppContext = createContext();
+function App() {
+  const client = new QueryClient();
+  // const [username, setUsername] = useState("Uchenna");
+  return(
     <div className="App">
-      <div className="addTask">
-        <input onChange={handleChange}/>
-        <button onClick={addTodo}>Add Task</button> 
-      </div>
-      <div className="list">
-        {todos.map((todo)=>{
-          return <Task taskName={todo.taskName} id={todo.id} deleteTask={deleteTask} completed={todo.completed} completeTodo={completeTodo}/>
-        })}
-      </div>
+      <QueryClientProvider client={client}>
+          <Router>
+          <div>
+            <Link to="/">Home</Link>
+            <Link to="/profile">Profile</Link>
+            <Link to="/contact">Contact</Link>
+          </div>
+          <Routes>
+            <Route path="/" element={<Home/>}/>
+            <Route path="/profile" element={<Profile/>}/>
+            <Route path="/contact" element={<Contact/>}/>
+            <Route path="*" element={<h2>Page Not found</h2>}/>
+            
+          </Routes>
+          </Router>
+       </QueryClientProvider>
     </div>
-  );
+  )
 };
 
 export default App;
