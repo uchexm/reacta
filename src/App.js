@@ -1,10 +1,15 @@
+import { useToggle } from "./useToggle";
 import "./App.css";
-import { Form } from "./components/Form";
 
 function App(){
+  const {state, toggle} = useToggle();
+
   return(
     <div className="App">
-      <Form/>
+      <button onClick={toggle}>
+        {state ? "Hide" : "Show"}
+      </button>
+      {state && <h2>Hidden text</h2>}  
     </div>
   );
 }
